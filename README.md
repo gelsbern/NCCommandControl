@@ -42,3 +42,21 @@ Velocity command-tree experiments began.
   directory.
 - Always retain a timestamped copy of a deployed JAR before replacement.
 - Do not modify third-party plugins for this feature.
+
+## Minecraft 1.21.8 client behavior
+
+The production mixed-root fallback was confirmed with the real FeloniousGru
+client on 2026-09-05:
+
+- Pressing `T` and then typing `/` displays the complete list, with FAWE
+  double-slash roots first and normal commands below.
+- Pressing the dedicated `/` key opens the command screen with `/` already
+  initialized. Minecraft does not automatically open suggestions until the
+  input changes; type another slash, type a command letter, or press Tab.
+- This difference is client-side and is not a missing server completion or
+  proxy failure.
+
+Production Paper version: `0.1.2-SNAPSHOT`.
+Production JAR SHA-256:
+`c464cdbe38ee0ca053b0b625b60a19644db25acde193a3c33652f923998954077`.
+The Velocity NCCommandControlProxy remains disabled.
