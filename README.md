@@ -9,8 +9,8 @@ selection commands are grouped beneath the second slash (`//`).
 
 ## Layout
 
-- `src/`"È›y¯ßy‘ Paper plugin and policy configuration.
-- `velocity/`+ßuÁ‚ùÁT Velocity command-tree and tab-completion filter.
+- `src/` ‚Äî Paper plugin and policy configuration.
+- `velocity/` ‚Äî Velocity command-tree and tab-completion filter.
 
 ## Build
 
@@ -28,7 +28,6 @@ Artifacts are written to each module's `target/` directory.
 
 - Paper artifact: `NCCommandControl.jar`
 - Velocity artifact: `NCCommandControlProxy.jar`
-- Proxy 0.3.1 removes synthetic Brigadier placeholders and retains only the
-  permitted FAWE `//` literal nodes. WorldEdit entries sort ahead of normal
-  commands and continue to support native argument completion.
+- Proxy 0.2.2 removes the leaked internal Brigadier placeholder arguments. The
+  proxy handles curated `//` completions separately from the normal root tree.
 - Always retain a timestamped copy of the deployed JAR before replacement.

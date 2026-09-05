@@ -33,7 +33,7 @@ import org.slf4j.Logger;
 @Plugin(
    id = "nccommandcontrolproxy",
    name = "NCCommandControlProxy",
-   version = "0.3.1-SNAPSHOT",
+   version = "0.2.2-SNAPSHOT",
    description = "NubCraft network command-tree filtering",
    authors = {"Nubcraft"}
 )
@@ -199,14 +199,11 @@ public final class NCCommandControlProxy {
    private <S> void filterAvailableCommandTree(RootCommandNode<S> root, Set<String> allowed) {
       for (CommandNode<S> node : new ArrayList<>(root.getChildren())) {
          String rawName = node.getName();
-         String commandName = normalize(rawName);
-
          if (rawName.startsWith("/") && rawName.length() > 1) {
-            if (!CITIZEN_WORLDEDIT_COMMANDS.contains(commandName)
-                  || !allowed.contains(commandName)) {
-               root.getChildren().remove(node);
-            }
-         } else if (!allowed.contains(commandName)) {
+            // Double-slash commands are completed by onTabComplete. Keeping a
+            // synthetic slash node here suppresses the vanilla root dropdown.
+            root.getChildren().remove(node);
+         } else if (!allowed.contains(normalize(rawName))) {
             root.getChildren().remove(node);
          }
       }
