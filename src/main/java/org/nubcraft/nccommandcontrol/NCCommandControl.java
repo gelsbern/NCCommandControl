@@ -399,13 +399,7 @@ public final class NCCommandControl extends JavaPlugin
 
         if (parts.length == 1) {
             String prefix = normalize(parts[0]);
-            event.setCompletions(
-                    visible.stream()
-                            .filter(name -> !CITIZEN_WORLDEDIT_PERMISSIONS.containsKey(name))
-                            .filter(name -> name.startsWith(prefix))
-                            .sorted()
-                            .toList()
-            );
+            event.setCompletions(rootCompletions(player, visible, prefix));
             event.setHandled(true);
             return;
         }
@@ -514,12 +508,11 @@ public final class NCCommandControl extends JavaPlugin
 
         if (parts.length == 1) {
             String prefix = normalize(parts[0]);
-            event.setCompletions(
-                    visibleCommands(player).stream()
-                            .filter(name -> !CITIZEN_WORLDEDIT_PERMISSIONS.containsKey(name))
-                            .filter(name -> name.startsWith(prefix))
-                            .toList()
-            );
+            event.setCompletions(rootCompletions(
+                    player,
+                    visibleCommands(player),
+                    prefix
+            ));
             return;
         }
 
@@ -614,6 +607,25 @@ public final class NCCommandControl extends JavaPlugin
         }
 
         event.setCompletions(filtered);
+    }
+
+    private List<String> rootCompletions(
+            Player player,
+            Collection<String> visible,
+            String prefix) {
+
+        List<String> completions = visible.stream()
+                .filter(name -> !CITIZEN_WORLDEDIT_PERMISSIONS.containsKey(name))
+                .filter(name -> name.startsWith(prefix))
+                .sorted()
+                .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+
+        if (prefix.isEmpty()
+                && !availableCitizenWorldEditCommands(player).isEmpty()) {
+            completions.add(0, "/");
+        }
+
+        return completions;
     }
 
     private List<String> availableCitizenWorldEditCommands(Player player) {
