@@ -401,7 +401,6 @@ public final class NCCommandControl extends JavaPlugin
             String prefix = normalize(parts[0]);
             event.setCompletions(
                     visible.stream()
-                            .filter(name -> !CITIZEN_WORLDEDIT_PERMISSIONS.containsKey(name))
                             .filter(name -> name.startsWith(prefix))
                             .sorted()
                             .toList()
@@ -516,7 +515,6 @@ public final class NCCommandControl extends JavaPlugin
             String prefix = normalize(parts[0]);
             event.setCompletions(
                     visibleCommands(player).stream()
-                            .filter(name -> !CITIZEN_WORLDEDIT_PERMISSIONS.containsKey(name))
                             .filter(name -> name.startsWith(prefix))
                             .toList()
             );
