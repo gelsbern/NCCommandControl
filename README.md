@@ -56,9 +56,9 @@ client on 2026-09-05:
 - This difference is client-side and is not a missing server completion or
   proxy failure.
 
-Production Paper version: `0.1.4-SNAPSHOT`.
+Production Paper version: `0.1.5-SNAPSHOT`.
 Production JAR SHA-256:
-`bad10f2ff94a5f00a565a3359e51edfd83ae09588f8111593cfb245891329bc4`.
+`9fb408168c6ba8b3408f5a6eb3ea453bf54331ece8b433814f7517c56811cd3a`.
 The Velocity NCCommandControlProxy remains disabled.
 
 ## Channel-list privacy
@@ -75,3 +75,39 @@ Plain/local chat never suggests the sender's own player name. This applies to
 all players, including staff with `nccommandcontrol.bypass`, and is enforced
 through both Paper's asynchronous completion event and its synchronous
 fallback.
+
+
+## WorldGuard region policy
+
+Citizens may see the complete native `/rg` tab-completion tree. WorldGuard
+permissions remain authoritative when a suggested subcommand is executed.
+The preferred roots `/rg`, `/region`, and `/regions` are published to Citizens;
+`/wg` and `/worldguard` remain Administrator-only through `worldguard.*`.
+
+Citizen permissions are deliberately limited to claiming a WorldEdit selection,
+selecting or inspecting any region, removing owned regions, and changing the
+approved flag allowlist on owned regions. Administrator owns `worldguard.*`,
+which is inherited by Senior Administrator and Owner.
+
+## Bolt automation policy
+
+Bolt 1.2.6 remains an unmodified third-party JAR. NubCraft deliberately changes
+`plugins/Bolt/config.yml` as follows:
+
+- The `private` protection type grants no implicit `redstone` access.
+- A `redstone` access type grants only Bolt's `redstone` permission.
+- A `hopper` access type grants only Bolt's `deposit` and `withdraw`
+  permissions.
+- Unique `redstone` and `block` source types allow those access entries to
+  target automation rather than players.
+- Existing protectable containers and hoppers continue to auto-protect as
+  `private`.
+
+NCCommandControl supplies two player-friendly wrappers. Both prompt the player
+to click the protected block to modify:
+
+- `/credstone on|off` controls redstone-signal access.
+- `/chopper on|off` controls hopper/block deposit and withdrawal access.
+
+These wrappers dispatch Bolt's native ACL editor as the player; NCCommandControl
+does not read or modify Bolt's database.

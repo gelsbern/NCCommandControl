@@ -117,7 +117,10 @@ public final class NCCommandControl extends JavaPlugin
             Map.entry("tm", "Send a message to Moderator Chat."),
             Map.entry("ts", "Send a message to Senior Moderator Chat."),
             Map.entry("ta", "Send a message to Admin Chat."),
-            Map.entry("sa", "Send a message to Senior Admin Chat.")
+            Map.entry("sa", "Send a message to Senior Admin Chat."),
+            Map.entry("rg", "Manage WorldGuard regions available to your rank."),
+            Map.entry("chopper", "Allow or block hopper automation for a protected container."),
+            Map.entry("credstone", "Allow or block redstone activation for a protected block.")
     );
 
     private final Set<String> publicCommands = new HashSet<>();
@@ -151,6 +154,18 @@ public final class NCCommandControl extends JavaPlugin
 
         help.setExecutor(this::executeHelp);
         help.setTabCompleter(this);
+
+        for (String commandName : List.of("chopper", "credstone")) {
+            PluginCommand toggle = getCommand(commandName);
+            if (toggle == null) {
+                throw new IllegalStateException(
+                        commandName + " is missing from plugin.yml"
+                );
+            }
+
+            toggle.setExecutor(this::executeBoltToggle);
+            toggle.setTabCompleter(this::completeBoltToggle);
+        }
 
         for (Player player : getServer().getOnlinePlayers()) {
             publishCommands(player, true);
@@ -861,6 +876,69 @@ public final class NCCommandControl extends JavaPlugin
 
     private boolean canLeaveListedChannel(Player player, String channel) {
         return player.hasPermission("chatcontrol.channel.leave." + channel);
+    }
+
+    private boolean executeBoltToggle(
+            @NotNull CommandSender sender,
+            @NotNull Command command,
+            @NotNull String label,
+            @NotNull String[] args) {
+
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage("This command is available only in game.");
+            return true;
+        }
+
+        if (!hasBaseAccess(player)) {
+            player.sendMessage(ChatColor.RED + "Unknown command.");
+            return true;
+        }
+
+        if (args.length != 1
+                || (!args[0].equalsIgnoreCase("on")
+                    && !args[0].equalsIgnoreCase("off"))) {
+            player.sendMessage(ChatColor.YELLOW + "Usage: "
+                    + ChatColor.WHITE + "/" + label + " <on|off>");
+            return true;
+        }
+
+        if (!getServer().getPluginManager().isPluginEnabled("Bolt")) {
+            player.sendMessage(ChatColor.RED
+                    + "Container protection is currently unavailable.");
+            return true;
+        }
+
+        boolean enable = args[0].equalsIgnoreCase("on");
+        String root = normalize(command.getName());
+        String access = root.equals("chopper") ? "hopper" : "redstone";
+        String source = root.equals("chopper") ? "block" : "redstone";
+        String boltCommand = "bolt modify "
+                + (enable ? "add " : "remove ")
+                + access + " " + source;
+
+        if (!player.performCommand(boltCommand)) {
+            player.sendMessage(ChatColor.RED
+                    + "Could not start the Bolt protection change.");
+        }
+
+        return true;
+    }
+
+    private List<String> completeBoltToggle(
+            @NotNull CommandSender sender,
+            @NotNull Command command,
+            @NotNull String alias,
+            @NotNull String[] args) {
+
+        if (!(sender instanceof Player)
+                || args.length != 1) {
+            return List.of();
+        }
+
+        String prefix = normalize(args[0]);
+        return List.of("on", "off").stream()
+                .filter(value -> value.startsWith(prefix))
+                .toList();
     }
 
     private boolean executeHelp(

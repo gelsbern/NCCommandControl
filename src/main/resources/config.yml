@@ -22,6 +22,11 @@ public-commands:
   - bolt
   - lock
   - unlock
+  - chopper
+  - credstone
+  - rg
+  - region
+  - regions
   - spawn
   - home
   - sethome
@@ -164,6 +169,10 @@ permission-overrides:
   logout: pv.logout
   gamemode: essentials.gamemode
   god: essentials.god
+
+  # WorldGuard administration begins at Administrator.
+  wg: worldguard.*
+  worldguard: worldguard.*
 
   # Citizen WorldEdit selection commands used by NCClaims.
   pos1: worldedit.selection.pos

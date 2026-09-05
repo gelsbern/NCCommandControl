@@ -1,5 +1,5 @@
 name: NCCommandControl
-version: 0.1.4-SNAPSHOT
+version: 0.1.5-SNAPSHOT
 main: org.nubcraft.nccommandcontrol.NCCommandControl
 api-version: '1.21.8'
 author: Greg Elsbernd
@@ -9,6 +9,16 @@ commands:
   nchelp:
     description: Show NubCraft help for commands you can use
     usage: /help [page|command]
+
+  chopper:
+    description: Allow or block hopper automation for a protected container
+    usage: /chopper <on|off>
+    permission: bolt.command.modify
+
+  credstone:
+    description: Allow or block redstone activation for a protected block
+    usage: /credstone <on|off>
+    permission: bolt.command.modify
 
 permissions:
   nccommandcontrol.bypass:
