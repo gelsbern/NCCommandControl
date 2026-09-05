@@ -1,0 +1,16 @@
+name: NCCommandControl
+version: '0.1.0-SNAPSHOT'
+main: org.nubcraft.nccommandcontrol.NCCommandControl
+api-version: '1.21.8'
+author: Greg Elsbernd
+description: NubCraft permission-aware command visibility and help
+
+commands:
+  nchelp:
+    description: Show NubCraft help for commands you can use
+    usage: /help [page|command]
+
+permissions:
+  nccommandcontrol.bypass:
+    description: Bypass command visibility and version-information restrictions
+    default: op

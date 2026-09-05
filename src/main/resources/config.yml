@@ -1,0 +1,196 @@
+# NCCommandControl keeps the client command tree limited to commands a player
+# can actually use. Players without nubcraft.citizen see only pre-citizen commands.
+base-player-permission: nubcraft.citizen
+help-page-size: 10
+
+pre-citizen-commands:
+  - help
+
+# Commands every Citizen may see/use. Rank-specific commands are controlled
+# separately by permission-overrides below.
+public-commands:
+  - help
+  - list
+  - reply
+  - r
+  - ignore
+  - me
+  - afk
+  - ncranks
+  - doc
+  - dhound
+  - bolt
+  - lock
+  - unlock
+  - spawn
+  - home
+  - sethome
+  - channel
+  - ch
+  - tell
+  - w
+  - m
+  - t
+  - pm
+  - message
+  - msg
+  - whisper
+  - sh
+  - y
+  - mch
+  - pvp
+  - voicechat
+  - modreq
+  - modrequest
+
+# These stay hidden for normal players even if another plugin accidentally
+# grants a broad permission. Namespaced commands (plugin:command) are hidden
+# automatically as well.
+hidden-commands:
+  - version
+  - ver
+  - plugins
+  - pl
+  - about
+  - bukkit
+  - paper
+  - essentials
+  - essversion
+
+# Suppress common information-leaking subcommands such as /bolt version.
+tab-hidden-commands:
+  # Compatibility aliases remain executable, but only the preferred spelling
+  # is advertised in / tab completion and NubCraft help.
+  - reply
+  - tell
+  - w
+  - m
+  - t
+  - pm
+  - message
+  - whisper
+  - modrequest
+
+  # NCRanks: advertise one preferred short spelling per ability.
+  - doctor
+  - dr
+  - repair
+  - level
+  - nightstalker
+  - night
+  - prospector
+  - instasmelt
+  - stonemason
+  - mushgardener
+  - mush
+  - bricklayer
+  - mastercarpenter
+  - carpenter
+  - carp
+  - mcarpenter
+  - xpert
+  - expert
+  - keepsake
+  - deathhound
+  - ratpack
+
+  # ModTRS compatibility/back-end names; staff see the Cubeville vocabulary.
+  - check-id
+  - checkid
+  - unclaim
+  - complete
+  - tp-id
+
+blocked-subcommands:
+  - version
+  - ver
+  - plugins
+  - about
+
+# A pipe means "any of these permissions". This makes NCRanks commands appear
+# only when the player actually holds the corresponding rank/ability.
+permission-overrides:
+  doctor: ncranks.service.dr
+  doc: ncranks.service.dr
+  dr: ncranks.service.dr
+  repair: ncranks.service.repairman
+  rp: ncranks.service.repairman
+  level: ncranks.service.repairman
+  lvl: ncranks.service.repairman
+  nightstalker: ncranks.mining.nightstalker
+  night: ncranks.mining.nightstalker
+  ns: ncranks.mining.nightstalker
+  prospector: ncranks.mining.ps|ncranks.mining.ps.ore|ncranks.mining.ps.flint|ncranks.mining.ps.logs
+  ps: ncranks.mining.ps|ncranks.mining.ps.ore|ncranks.mining.ps.flint|ncranks.mining.ps.logs
+  instasmelt: ncranks.mining.instasmelt
+  smelt: ncranks.mining.instasmelt
+  scuba: ncranks.service.scuba
+  stonemason: ncranks.build.stonemason
+  mason: ncranks.build.stonemason
+  mushgardener: ncranks.build.mushgardener
+  mush: ncranks.build.mushgardener
+  mg: ncranks.build.mushgardener
+  bricklayer: ncranks.build.bricklayer
+  brick: ncranks.build.bricklayer
+  mastercarpenter: ncranks.build.carpenter
+  carpenter: ncranks.build.carpenter
+  carp: ncranks.build.carpenter
+  mcarpenter: ncranks.build.carpenter
+  mcarp: ncranks.build.carpenter
+  xpert: ncranks.death.te
+  expert: ncranks.death.te
+  ex: ncranks.death.te
+  keepsake: ncranks.death.ks
+  ks: ncranks.death.ks
+  deathhound: ncranks.death.hound
+  dhound: ncranks.death.hound
+  respawn: ncranks.death.respawn
+  ratpack: ncranks.death.ratpack
+  rat: ncranks.death.ratpack
+  hat: ncranks.cosmetic.hat
+
+  # Chat shortcuts for staff ranks.
+  tg: chatcontrol.channel.send.staff
+  tm: chatcontrol.channel.send.moderator
+  ts: chatcontrol.channel.send.seniormoderator
+  ta: chatcontrol.channel.send.admin
+  sa: chatcontrol.channel.send.senioradmin
+
+  # Administrator/staff convenience commands.
+  bring: essentials.tphere
+  login: pv.login
+  logout: pv.logout
+  gamemode: essentials.gamemode
+  god: essentials.god
+
+  # Citizen WorldEdit selection commands used by NCClaims.
+  pos1: worldedit.selection.pos
+  pos2: worldedit.selection.pos
+  hpos1: worldedit.selection.hpos
+  hpos2: worldedit.selection.hpos
+  expand: worldedit.selection.expand
+  contract: worldedit.selection.contract
+  size: worldedit.selection.size
+  shift: worldedit.selection.shift
+  outset: worldedit.selection.outset
+  inset: worldedit.selection.inset
+  chunk: worldedit.selection.chunk
+  sel: worldedit.analysis.sel
+  wand: worldedit.wand
+
+  # ModTRS staff/admin commands.
+  check: modtrs.command.check
+  check-id: modtrs.command.check
+  checkid: modtrs.command.check
+  dibs: modtrs.command.complete
+  unclaim: modtrs.command.complete
+  backsies: modtrs.command.complete
+  complete: modtrs.command.complete
+  done: modtrs.command.complete
+  reopen: modtrs.command.complete
+  hold: modtrs.command.complete
+  tp-id: modtrs.command.teleport
+  tpid: modtrs.command.teleport
+  modreq-ban: modtrs.command.ban
+  modreq-unban: modtrs.command.unban
+  modtrs: modtrs.admin
