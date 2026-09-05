@@ -56,7 +56,15 @@ client on 2026-09-05:
 - This difference is client-side and is not a missing server completion or
   proxy failure.
 
-Production Paper version: `0.1.2-SNAPSHOT`.
+Production Paper version: `0.1.3-SNAPSHOT`.
 Production JAR SHA-256:
-`c464cdbe38ee0ca053b0b625b60a19644db25acde193a3c33652f923998954077`.
+`8db6e2fc205ea4e310808a40148588f60357714a04c29c524a44a7809e73adf0`.
 The Velocity NCCommandControlProxy remains disabled.
+
+## Channel-list privacy
+
+NCCommandControl intercepts `/ch list`, `/channel list`, `/ch ls`, and
+`/channel ls`. All four spellings display only channels the player may join
+or leave; ChatControl's native channel/player roster is not exposed. The FAWE
+`/;` compatibility alias is also omitted from command suggestions for
+non-bypass players.

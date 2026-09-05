@@ -59,6 +59,8 @@ hidden-commands:
 
 # Suppress common information-leaking subcommands such as /bolt version.
 tab-hidden-commands:
+  # FAWE compatibility alias; useful internally but noisy in the root list.
+  - ";"
   # Compatibility aliases remain executable, but only the preferred spelling
   # is advertised in / tab completion and NubCraft help.
   - reply

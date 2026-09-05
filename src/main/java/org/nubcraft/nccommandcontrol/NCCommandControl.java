@@ -321,7 +321,8 @@ public final class NCCommandControl extends JavaPlugin
         // list containing only channels this player can actually access.
         if ((root.equals("ch") || root.equals("channel"))
                 && parts.length >= 2
-                && normalize(parts[1]).equals("list")) {
+                && (normalize(parts[1]).equals("list")
+                    || normalize(parts[1]).equals("ls"))) {
             event.setCancelled(true);
             showSafeChannelList(player);
             return;
