@@ -3,8 +3,7 @@
 base-player-permission: nubcraft.citizen
 help-page-size: 10
 
-pre-citizen-commands:
-  - help
+pre-citizen-commands: []
 
 # Commands every Citizen may see/use. Rank-specific commands are controlled
 # separately by permission-overrides below.
@@ -17,8 +16,6 @@ public-commands:
   - me
   - afk
   - ncranks
-  - doc
-  - dhound
   - bolt
   - lock
   - unlock
@@ -42,6 +39,9 @@ public-commands:
   - voicechat
   - modreq
   - modrequest
+  - check
+  - check-id
+  - checkid
 
 # These stay hidden for normal players even if another plugin accidentally
 # grants a broad permission. Namespaced commands (plugin:command) are hidden
@@ -58,49 +58,6 @@ hidden-commands:
   - essversion
 
 # Suppress common information-leaking subcommands such as /bolt version.
-tab-hidden-commands:
-  # Compatibility aliases remain executable, but only the preferred spelling
-  # is advertised in / tab completion and NubCraft help.
-  - reply
-  - tell
-  - w
-  - m
-  - t
-  - pm
-  - message
-  - whisper
-  - modrequest
-
-  # NCRanks: advertise one preferred short spelling per ability.
-  - doctor
-  - dr
-  - repair
-  - level
-  - nightstalker
-  - night
-  - prospector
-  - instasmelt
-  - stonemason
-  - mushgardener
-  - mush
-  - bricklayer
-  - mastercarpenter
-  - carpenter
-  - carp
-  - mcarpenter
-  - xpert
-  - expert
-  - keepsake
-  - deathhound
-  - ratpack
-
-  # ModTRS compatibility/back-end names; staff see the Cubeville vocabulary.
-  - check-id
-  - checkid
-  - unclaim
-  - complete
-  - tp-id
-
 blocked-subcommands:
   - version
   - ver
@@ -151,10 +108,10 @@ permission-overrides:
 
   # Chat shortcuts for staff ranks.
   tg: chatcontrol.channel.send.staff
-  tm: chatcontrol.channel.send.moderator
-  ts: chatcontrol.channel.send.seniormoderator
-  ta: chatcontrol.channel.send.admin
-  sa: chatcontrol.channel.send.senioradmin
+  tc: chatcontrol.channel.send.counselor
+  ts: chatcontrol.channel.send.seniorstaff
+  tm: chatcontrol.channel.send.gm
+  ta: chatcontrol.channel.send.administration
 
   # Administrator/staff convenience commands.
   bring: essentials.tphere
@@ -163,28 +120,9 @@ permission-overrides:
   gamemode: essentials.gamemode
   god: essentials.god
 
-  # Citizen WorldEdit selection commands used by NCClaims.
-  pos1: worldedit.selection.pos
-  pos2: worldedit.selection.pos
-  hpos1: worldedit.selection.hpos
-  hpos2: worldedit.selection.hpos
-  expand: worldedit.selection.expand
-  contract: worldedit.selection.contract
-  size: worldedit.selection.size
-  shift: worldedit.selection.shift
-  outset: worldedit.selection.outset
-  inset: worldedit.selection.inset
-  chunk: worldedit.selection.chunk
-  sel: worldedit.analysis.sel
-  wand: worldedit.wand
-
   # ModTRS staff/admin commands.
-  check: modtrs.command.check
-  check-id: modtrs.command.check
-  checkid: modtrs.command.check
-  dibs: modtrs.command.complete
+  claim: modtrs.command.complete
   unclaim: modtrs.command.complete
-  backsies: modtrs.command.complete
   complete: modtrs.command.complete
   done: modtrs.command.complete
   reopen: modtrs.command.complete
