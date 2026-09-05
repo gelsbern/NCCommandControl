@@ -364,20 +364,22 @@ public final class NCCommandControl extends JavaPlugin
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onAsyncTabComplete(AsyncTabCompleteEvent event) {
-        if (!(event.getSender() instanceof Player player)
-                || isBypass(player)) {
+        if (!(event.getSender() instanceof Player player)) {
             return;
         }
 
-        // Plain chat tab completion is supplied by the server too. Keep the
-        // sender out of their own suggestions; command completion is handled
-        // below with NubCraft's filtered player cache.
+        // Plain/local chat self-completion is hidden for every player,
+        // including staff with the command-visibility bypass permission.
         if (!event.isCommand()) {
             String self = player.getName();
             event.setCompletions(event.getCompletions().stream()
                     .filter(completion -> !completion.equalsIgnoreCase(self))
                     .toList());
             event.setHandled(true);
+            return;
+        }
+
+        if (isBypass(player)) {
             return;
         }
 
@@ -496,11 +498,21 @@ public final class NCCommandControl extends JavaPlugin
             return;
         }
 
-        if (isBypass(player)) {
+        String buffer = event.getBuffer();
+
+        // Fallback for servers/plugins that route local-chat completion
+        // through the synchronous event instead of AsyncTabCompleteEvent.
+        if (!buffer.startsWith("/")) {
+            String self = player.getName();
+            event.setCompletions(event.getCompletions().stream()
+                    .filter(completion -> !completion.equalsIgnoreCase(self))
+                    .toList());
             return;
         }
 
-        String buffer = event.getBuffer();
+        if (isBypass(player)) {
+            return;
+        }
 
         if (buffer.startsWith("//")) {
             handleCitizenWorldEditTab(event, player, buffer);

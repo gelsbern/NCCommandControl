@@ -56,9 +56,9 @@ client on 2026-09-05:
 - This difference is client-side and is not a missing server completion or
   proxy failure.
 
-Production Paper version: `0.1.3-SNAPSHOT`.
+Production Paper version: `0.1.4-SNAPSHOT`.
 Production JAR SHA-256:
-`8db6e2fc205ea4e310808a40148588f60357714a04c29c524a44a7809e73adf0`.
+`bad10f2ff94a5f00a565a3359e51edfd83ae09588f8111593cfb245891329bc4`.
 The Velocity NCCommandControlProxy remains disabled.
 
 ## Channel-list privacy
@@ -68,3 +68,10 @@ NCCommandControl intercepts `/ch list`, `/channel list`, `/ch ls`, and
 or leave; ChatControl's native channel/player roster is not exposed. The FAWE
 `/;` compatibility alias is also omitted from command suggestions for
 non-bypass players.
+
+## Local-chat completion privacy
+
+Plain/local chat never suggests the sender's own player name. This applies to
+all players, including staff with `nccommandcontrol.bypass`, and is enforced
+through both Paper's asynchronous completion event and its synchronous
+fallback.
